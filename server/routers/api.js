@@ -121,4 +121,9 @@ router.post(
   }
 );
 
+// Add event to Google Calendar
+router.post('/calendar', eventController.addToCalendar, (req, res) => {
+  res.status(200).json(res.locals.link);
+});
+
 module.exports = router;
