@@ -62,7 +62,8 @@ router.use(
   cookieController.removeCookie,
   (req, res) => {
     return res.redirect('http://localhost:8080/');
-  });
+  }
+);
 
 // CREATE A NEW EVENT
 
@@ -91,13 +92,10 @@ router.post(
   }
 );
 
-router.get('/events',
-  eventController.allEvents,
-  (req, res) => {
-    res.set('Access-Control-Allow-Origin', '*');
-    res.status(200).json(res.locals.allEventsInfo);
-  }
-);
+router.get('/events', eventController.allEvents, (req, res) => {
+  res.set('Access-Control-Allow-Origin', '*');
+  res.status(200).json(res.locals.allEventsInfo);
+});
 
 router.post(
   '/regularSignIn',
@@ -105,7 +103,9 @@ router.post(
   cookieController.setSSIDCookie,
   (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
-    res.status(200).json({ cookie: res.locals.token });
+    res
+      .status(200)
+      .json({ cookie: res.locals.token, userName: res.locals.userName });
   }
 );
 
@@ -115,7 +115,9 @@ router.post(
   cookieController.setSSIDCookie,
   (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
-    res.status(200).json({ cookie: res.locals.token });
+    res
+      .status(200)
+      .json({ cookie: res.locals.token, userName: res.locals.userName });
   }
 );
 

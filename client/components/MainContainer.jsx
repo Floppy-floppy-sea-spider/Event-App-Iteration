@@ -26,6 +26,7 @@ export default function MainContainer() {
   function handleLogOut() {
     setUserName('');
     Cookies.remove('user');
+    Cookies.remove('userName');
     setLoggedIn(false);
     setUser({});
     setEvents([]);
@@ -37,18 +38,27 @@ export default function MainContainer() {
     // console.log('I am in useEffect!');
     // console.log('userName in useEffect is: ', userName);
     // console.log('loggedIn in useEffect is: ', loggedIn);
-    axios.get(`/api/info?userName=${userName}`).then((res) => {
-      let userInfo = {
-        username: res.data.users.username,
-        firstname: res.data.users.firstname,
-        lastname: res.data.users.lastname,
-        profilephoto: res.data.users.profilephoto,
-      };
-      let eventsInfo = res.data.events;
-      setUser(userInfo);
-      setEvents(eventsInfo);
-      setUserName(res.data.users.username);
-    });
+    const cookiesUserName = Cookies.get('userName');
+    if (cookiesUserName) {
+      getInfo(cookiesUserName);
+    } else if (userName.length > 1) {
+      getInfo(userName);
+    }
+
+    function getInfo(user) {
+      axios.get(`/api/info?userName=${user}`).then((res) => {
+        let userInfo = {
+          username: res.data.users.username,
+          firstname: res.data.users.firstname,
+          lastname: res.data.users.lastname,
+          profilephoto: res.data.users.profilephoto,
+        };
+        let eventsInfo = res.data.events;
+        setUser(userInfo);
+        setEvents(eventsInfo);
+        setUserName(res.data.users.username);
+      });
+    }
   }, [loggedIn]);
   //updates username when a different user is selected
   function handleUserPageChange(username) {
