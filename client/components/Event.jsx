@@ -1,9 +1,8 @@
 import React from 'react';
 import EventAttendees from './EventAttendees.jsx';
 import Content from './Content.jsx';
+import location from '../assets/location.png';
 import { Container, Jumbotron, Button } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLocationArrow } from '@fortawesome/free-solid-svg-icons';
 
 export default function Event(props) {
   const gapi = window.gapi;
@@ -55,33 +54,6 @@ export default function Event(props) {
           };
           console.log('EVENT object', event);
 
-          // var event = {
-          //   summary: 'Google I/O 2015',
-          //   location: '800 Howard St., San Francisco, CA 94103',
-          //   description:
-          //     "A chance to hear more about Google's developer products.",
-          //   start: {
-          //     dateTime: '2015-05-28T09:00:00-07:00',
-          //     timeZone: 'America/Los_Angeles',
-          //   },
-          //   end: {
-          //     dateTime: '2015-05-28T17:00:00-07:00',
-          //     timeZone: 'America/Los_Angeles',
-          //   },
-          //   recurrence: ['RRULE:FREQ=DAILY;COUNT=2'],
-          //   attendees: [
-          //     { email: 'lpage@example.com' },
-          //     { email: 'sbrin@example.com' },
-          //   ],
-          //   reminders: {
-          //     useDefault: false,
-          //     overrides: [
-          //       { method: 'email', minutes: 24 * 60 },
-          //       { method: 'popup', minutes: 10 },
-          //     ],
-          //   },
-          // };
-
           const request = gapi.client.calendar.events.insert({
             calendarId: 'primary',
             resource: event,
@@ -89,20 +61,7 @@ export default function Event(props) {
 
           request.execute(function (event) {
             window.open(event.htmlLink, '_blank');
-            // appendPre('Event created: ' + event.htmlLink);
           });
-          // })
-          //       .then(
-          //         (response) => {
-          //           console.log(response.result);
-          //         },
-          //         (reason) => {
-          //           console.log('Error: ' + reason.result.error.message);
-          //         }
-          //       );
-          //   };
-
-          //   gapi.load('client'.start);
         })
         .catch((err) => console.log(err));
     });
@@ -120,13 +79,12 @@ export default function Event(props) {
                 {props.eventstarttime} - {props.eventendtime}
               </h4>
               <h4>
-                Location <FontAwesomeIcon icon={faLocationArrow} size="1x" /> :{' '}
-                {props.eventlocation}
+                <img src={location} height="30px" width="30px" /> Location:
+                {` ${props.eventlocation}`}
               </h4>
               <p>{props.eventdetails}</p>
               <Button
                 variant="info"
-                // type="submit"
                 onClick={(e) => {
                   handleClick(e);
                 }}
@@ -139,7 +97,7 @@ export default function Event(props) {
           <Container>
             <EventAttendees {...props} userUpdate={props.userUpdate} />
           </Container>
-          <Content user={props.user} {...props} />
+          <Content user={props.user} eventtitle={props.eventtitle} {...props} />
         </Container>
       </div>
     </div>

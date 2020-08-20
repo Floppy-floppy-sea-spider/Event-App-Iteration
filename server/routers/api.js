@@ -99,6 +99,20 @@ router.get('/events',
   }
 );
 
+// add comments to event
+router.patch('/addComment/',
+  eventController.addComment,
+  (req, res) => {
+    res.set('Access-Control-Allow-Origin', '*');
+    if (res.locals.status === 200) {
+      res.status(200).json({message: 'success'});
+    }
+    else {
+      res.status(400).json({message: 'Adding failed'});
+    }
+  }
+);
+
 router.post(
   '/regularSignIn',
   loginController.regularSignIn,

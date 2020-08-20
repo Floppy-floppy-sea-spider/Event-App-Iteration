@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
+import axios from 'axios';
 
 export default function Content(props) {
   const [messages, setMessages] = useState(props.eventmessages);
   const [comment, setComment] = useState('');
   const [user] = useState(props.user);
-
+  console.log(messages);
   const messageFeed = messages.map((message, i) => (
     <div key={`message${i}`}>
       <div className="message">
-        <img src={user.profilephoto} height='30px' width='30px'/>
-        <p><b>{`${user.firstname} ${user.lastname}`}</b></p>
+        <img src={message.photo} height='30px' width='30px'/>
+        <p><b>{message.name}</b></p>
         <p className="timeStamp">{message.time}</p>
       </div>
       {message.text}
@@ -28,10 +29,23 @@ export default function Content(props) {
     const options = { hour: 'numeric', minute: 'numeric', weekday: 'short', month: 'long', day: 'numeric' };
     date = date.toLocaleDateString('en-US', options);
     if (comment.length) {
-      const newMessages = [...messages];
-      newMessages.push({ text: comment, time: date });
-      setMessages(newMessages);
+      const updatedMessages = [...messages];
+      updatedMessages.push({
+        text: comment,
+        time: date,
+        photo: user.profilephoto,
+        name: `${user.firstname} ${user.lastname}`,
+      });
+
+      const data = { updatedMessages};
+      axios.patch(`/api/addComment/?eventtitle=${props.eventtitle}`, data)
+        .then((res) => {
+          setMessages(updatedMessages); // setMessages on 200 status from server
+          console.log(res);
+        })
+        .catch((err) => { console.log(err); });
       setComment('');
+      document.getElementsByName('comment-form')[0].reset();
     }
   }
 
