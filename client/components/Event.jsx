@@ -11,8 +11,8 @@ export default function Event(props) {
   const handleClick = (e) => {
     e.preventDefault();
 
-    console.log('google api key', process.env.Google_Calendar_API);
-    console.log('google client id', process.env.Client_ID);
+    // console.log('google api key', process.env.Google_Calendar_API);
+    // console.log('google client id', process.env.Client_ID);
 
     gapi.load('client:auth2', () => {
       gapi.client.init({
@@ -33,7 +33,7 @@ export default function Event(props) {
         .then(() => {
           console.log('signed in');
 
-          var event = {
+          const event = {
             summary: props.eventtitle,
             location: props.eventlocation,
             description: props.eventdetails,
@@ -139,7 +139,7 @@ export default function Event(props) {
           <Container>
             <EventAttendees {...props} userUpdate={props.userUpdate} />
           </Container>
-          <Content {...props} />
+          <Content user={props.user} {...props} />
         </Container>
       </div>
     </div>

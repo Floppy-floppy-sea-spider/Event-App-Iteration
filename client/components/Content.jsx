@@ -1,71 +1,44 @@
-import React, { useState, useEffect } from 'react';
-import { Media, Form, Button } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Form, Button } from 'react-bootstrap';
 
-export default function Content({ content }) {
-  const [cont, setCont] = useState(content);
-  // setComment is on line 29
+export default function Content(props) {
+  const [messages, setMessages] = useState(props.eventmessages);
   const [comment, setComment] = useState('');
+  const [user] = useState(props.user);
 
-  let messages = [];
-  // if (!cont) {
-  //   commentStore.push(comment);
-  //   messages = commentStore.map((message, index) => {
-  //     return (
-  //       <div className="messageBox" key={`Content${index}`}>
-  //         <div className="userMessage">
-  //           <img src={message.profilephoto}></img>
-  //         </div>
-  //         <div className="message" key={`Content${index}`} >
-  //           <p className="messageName">{message.firstname} {message.lastname}</p>
-  //           <p className="messageText">{message.text}</p>
-  //           <p className="messageTime">{message.time}</p>
-  //         </div>
-  //       </div>
-  //     )
-  //   })
-  // }
-  if (cont) {
-    messages = cont.map((message, index) => {
-      return (
-        <div className="messageBox" key={`Content${index}`}>
-          <div className="userMessage">
-            <img src={message.profilephoto}></img>
-          </div>
-          <div className="message" key={`Content${index}`}>
-            <p className="messageName">
-              {message.firstname} {message.lastname}
-            </p>
-            <p className="messageText">{message.text}</p>
-            <p className="messageTime">{message.time}</p>
-          </div>
-        </div>
-      );
-    });
-  }
+  const messageFeed = messages.map((message, i) => (
+    <div key={`message${i}`}>
+      <div className="message">
+        <img src={user.profilephoto} height='30px' width='30px'/>
+        <p><b>{`${user.firstname} ${user.lastname}`}</b></p>
+        <p className="timeStamp">{message.time}</p>
+      </div>
+      {message.text}
+      <hr />
+    </div>
+  ));
 
-  //handles change to comment - updates the state
   const handleChange = (e) => {
     setComment(e.target.value);
   };
-  //handles submit event - creates time stamp - does not submit to database....yet
+  // handles submit event - creates time stamp - does not submit to database....yet
   function handleCommentSubmit(e) {
     e.preventDefault();
-    const date = new Date();
-    // const newContent = commentStore.concat([{ text: comment, time: date.toTimeString() }])
-    const newContent = cont.push([
-      { text: comment, time: date.toTimeString() },
-    ]);
-    console.log(newContent);
-    setCont(newContent);
-
-    //clear form data
-    document.getElementsByName('comment-form')[0].reset();
+    let date = new Date();
+    const options = { hour: 'numeric', minute: 'numeric', weekday: 'short', month: 'long', day: 'numeric' };
+    date = date.toLocaleDateString('en-US', options);
+    if (comment.length) {
+      const newMessages = [...messages];
+      newMessages.push({ text: comment, time: date });
+      setMessages(newMessages);
+      setComment('');
+    }
   }
 
   return (
     <div className="eventContent">
       <h4>Comments</h4>
-      <div className="messages">{messages}</div>
+      <div className="messageFeed">{messageFeed}</div>
       <Form name="comment-form">
         <Form.Group controlId="exampleForm.ControlTextarea1">
           <Form.Label>Add a Comment:</Form.Label>

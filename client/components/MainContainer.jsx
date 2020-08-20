@@ -19,8 +19,8 @@ export default function MainContainer() {
     setUserName(username);
     setLoggedIn(true);
 
-    console.log('userName in handleLogIn is: ', userName);
-    console.log('loggedIn in handleLogIn is: ', loggedIn);
+    // console.log('userName in handleLogIn is: ', userName);
+    // console.log('loggedIn in handleLogIn is: ', loggedIn);
   }
 
   function handleLogOut() {
@@ -89,6 +89,7 @@ export default function MainContainer() {
   function handleSearchEvent(event) {
     // ADD
     axios.post(`/api/add?eventtitle=${event.eventtitle}`).then((res) => {
+      console.log(res);
       event.attendees.push({
         username: user.username,
         firstname: user.firstname,
@@ -116,7 +117,7 @@ export default function MainContainer() {
             events={events}
           />
         </Container>
-        <EventsFeed events={events} userUpdate={handleUserPageChange} />
+        <EventsFeed events={events} user={user} userUpdate={handleUserPageChange} />
       </div>
     </div>
   );

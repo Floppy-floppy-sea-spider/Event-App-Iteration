@@ -84,7 +84,7 @@ eventController.createEvent = (req, res, next) => {
     eventendtime,
     eventdetails,
   } = req.body;
-  console.log('eventController.createEvent ', req.body);
+  // console.log('eventController.createEvent ', req.body);
   const queryValues = [
     eventtitle,
     raweventstarttime,
@@ -99,7 +99,7 @@ eventController.createEvent = (req, res, next) => {
   ];
   db.query(queryString, queryValues)
     .then((data) => {
-      console.log('>>> eventController.createEvent DATA ', data);
+      // console.log('>>> eventController.createEvent DATA ', data);
       res.locals.eventID = data.rows[0];
       return next();
     })
@@ -113,7 +113,7 @@ eventController.createEvent = (req, res, next) => {
 };
 
 eventController.addNewEventToJoinTable = (req, res, next) => {
-  console.log('eventController.addNewEventToJoinTable');
+  // console.log('eventController.addNewEventToJoinTable');
   const queryString = queries.addNewEventToJoinTable;
   const queryValues = [res.locals.eventID.eventid];
   db.query(queryString, queryValues)
@@ -134,6 +134,7 @@ eventController.addNewEventToJoinTable = (req, res, next) => {
 };
 
 eventController.verifyAttendee = (req, res, next) => {
+  // console.log('verified attendee');
   const title = req.query.eventtitle; // verify with frontend
 
   const { username } = res.locals.allUserInfo;
@@ -143,12 +144,12 @@ eventController.verifyAttendee = (req, res, next) => {
 
   db.query(queryString, queryValues)
     .then((data) => {
-      console.log('data: ', data);
+      // console.log('data: ', data);
       const attendees = [];
       for (const attendeeObj of data.rows) {
         attendees.push(attendeeObj.username);
       }
-      console.log(attendees);
+      // console.log(attendees);
       if (attendees.includes(username)) {
         return next({
           log: `Error: User is already an attendee`,
@@ -178,6 +179,7 @@ eventController.verifyAttendee = (req, res, next) => {
 
 //  (userid, username, eventid, eventtitle, eventdate, eventstarttime, eventendtime, eventdetails, eventlocation)
 eventController.addAttendee = (req, res, next) => {
+  console.log('adding attendee');
   const title = req.query.eventtitle;
 
   const { userid, username } = res.locals.allUserInfo;
@@ -198,7 +200,7 @@ eventController.addAttendee = (req, res, next) => {
 
   db.query(queryString, queryValues)
     .then((data) => {
-      console.log('data from addAttendee: ', data);
+      // console.log('data from addAttendee: ', data);
       return next();
     })
     .catch((err) => {
@@ -254,7 +256,7 @@ eventController.getUserDetail = (req, res, next) => {
   });
 
   const allUsernames = res.locals.attendees.flat(Infinity);
-  console.log('FLATTENED USERNAMES', allUsernames);
+  // console.log('FLATTENED USERNAMES', allUsernames);
 
   const queryString = queries.userInfo;
 

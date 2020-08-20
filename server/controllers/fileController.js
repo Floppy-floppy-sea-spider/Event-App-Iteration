@@ -8,7 +8,7 @@ const fileController = {};
 fileController.createUser = (req, res, next) => {
   // ADD BACK ASYNC IF YOU TURN ON THE TRY / CATCH / AWAIT
   const decoded = jwtDecode(res.locals.token);
-
+  console.log(decoded);
   const { email, given_name, family_name, picture } = decoded;
 
   const queryString1 = queries.userInfo;
@@ -53,6 +53,7 @@ fileController.createUser = (req, res, next) => {
 
 fileController.getUser = (req, res, next) => {
   let decoded;
+  console.log('fired');
   if (!res.locals.token) {
     decoded = jwtDecode(req.cookies.user);
   } else {

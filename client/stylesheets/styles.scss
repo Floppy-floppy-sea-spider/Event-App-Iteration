@@ -158,46 +158,21 @@ body {
 
 /* Content.jsx */
 
-.userMessage {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  position: relative;
-  overflow: hidden;
-  border: 1px solid rgb(204, 204, 204);
-  box-shadow: 2px 3px 6px #cacaca;
-  margin: 10px;
-}
-
-.userMessage img {
-    height: 50px;
-    object-fit: contain;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    -moz-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);  
-}
-.messageBox {
+.message {
   display: flex;
-  justify-content: left;
-}
-
-.messages p {
-  font-size: 12px;
   padding: 0;
   margin: 0;
-}
-.messageName {
-  font-weight: bold;
-}
 
-.message {
-  padding: 10px;
+  img {
+    border-radius: 5px;
+    margin-right: 10px;
+  }
+  .timeStamp {
+    margin-left: auto;
+    font-size: 10pt;
+    color: dimgray;
+  }
 }
-
 
 /* rainbow divider */
 

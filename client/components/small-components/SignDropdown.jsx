@@ -13,7 +13,7 @@ import FormInput from './form-input.jsx';
 class CartDropdown extends React.Component {
   constructor(props) {
     super(props);
-    console.log('props are: ', props);
+    // console.log('props are: ', props);
     this.state = {
       emailIn: '',
       passwordIn: '',
@@ -32,7 +32,7 @@ class CartDropdown extends React.Component {
   handleSignInSubmit() {
     event.preventDefault();
     const data = { email: this.state.emailIn, password: this.state.passwordIn };
-    console.log('data is: ', data);
+    // console.log('data is: ', data);
     // fetch('http://localhost:3000/api/regularSignIn', {
     //   method: 'POST',
     //   headers: {
@@ -43,7 +43,7 @@ class CartDropdown extends React.Component {
     axios
       .post('http://localhost:3000/api/regularSignIn', data)
       .then((response) => {
-        console.log('response.data is', response.data);
+        // console.log('response.data is', response.data);
         Cookies.set('user', response.data.cookie);
         const userName = this.state.emailIn;
         this.setState({
@@ -79,7 +79,7 @@ class CartDropdown extends React.Component {
     axios
       .post('http://localhost:3000/api/regularSignUp', data)
       .then((response) => {
-        console.log('response.data is', response.data);
+        // console.log('response.data is', response.data);
         Cookies.set('user', response.data.cookie);
         const userName = this.state.emailUp;
         this.setState({

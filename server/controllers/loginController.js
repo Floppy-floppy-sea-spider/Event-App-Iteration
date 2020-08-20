@@ -52,12 +52,12 @@ loginController.afterConsent = (req, res, next) => {
 
 loginController.regularSignIn = (req, res, next) => {
   const { email, password } = req.body;
-  console.log(req.body);
+  // console.log(req.body);
   const queryString1 = queries.userInfo;
   const queryValues1 = [email];
 
   db.query(queryString1, queryValues1).then((data) => {
-    console.log('data.rows is:', data.rows);
+    // console.log('data.rows is:', data.rows);
     if (!data.rows.length) {
       console.log('cannot find user in db');
       res
@@ -80,7 +80,7 @@ loginController.regularSignIn = (req, res, next) => {
 
 loginController.regularSignUp = (req, res, next) => {
   const { email, password, firstname, lastname, profilephoto } = req.body;
-  console.log(req.body);
+  // console.log(req.body);
   const queryString1 = queries.userInfo;
   const queryValues1 = [email];
 
@@ -95,16 +95,16 @@ loginController.regularSignUp = (req, res, next) => {
 
   db.query(queryString1, queryValues1)
     .then((data) => {
-      console.log('data.rows is:', data.rows);
+      // console.log('data.rows is:', data.rows);
       if (!data.rows.length) {
-        console.log('data.rows is empty and about to create one');
+        // console.log('data.rows is empty and about to create one');
         db.query(queryString2, queryValues2)
           .then((data) => {
             res.locals.username = data.rows[0].username;
-            console.log('NEW USER: ', res.locals.username);
+            // console.log('NEW USER: ', res.locals.username);
             // res.locals.token = tokens.id_token; need to set a token for future use
             const token = jwt.sign(data.rows[0], 'spider');
-            console.log('token created and it is: ', token);
+            // console.log('token created and it is: ', token);
             res.locals.token = token;
             return next();
           })
