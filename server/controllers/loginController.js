@@ -6,10 +6,27 @@ const fs = require('fs');
 
 const loginController = {};
 
+// const Client_ID = process.env.Client_ID;
+const Client_ID =
+  '580748962931-63i8t6oie0r8d4k4gnaf8rrjfuk4jh0o.apps.googleusercontent.com';
+
+// const Client_Secret = process.env.Client_Secret;
+const Client_Secret = 'sQrilm_TKkRAnlTlhweF8hR9';
+
 loginController.oAuth = async (req, res, next) => {
+  // const Client_ID = process.env.Client_ID;
+  // const Client_Secret = process.env.Client_Secret;
+  console.log('log meeeee!', process.env.Client_ID, process.env.Client_Secret);
+  console.log('I am in oAuth!');
+  // const oauth2Client = new google.auth.OAuth2(
+  //   process.env.Client_ID,
+  //   process.env.Client_Secret,
+  //   'http://localhost:3000/api/login/google'
+  // );
+
   const oauth2Client = new google.auth.OAuth2(
-    process.env.Client_ID,
-    process.env.Client_Secret,
+    Client_ID,
+    Client_Secret,
     'http://localhost:3000/api/login/google'
   );
 
@@ -57,8 +74,8 @@ loginController.afterConsent = (req, res, next) => {
   const TOKEN_PATH = 'token.json';
 
   const oauth2Client = new google.auth.OAuth2(
-    process.env.Client_ID,
-    process.env.Client_Secret,
+    Client_ID,
+    Client_Secret,
     'http://localhost:3000/api/login/google'
   );
 
@@ -100,6 +117,7 @@ loginController.regularSignIn = (req, res, next) => {
     } else {
       // do something to get the token
       // res.locals.token = tokens.id_token;
+      res.locals.userName = data.rows[0].username;
       const token = jwt.sign(data.rows[0], 'spider');
       console.log('token created and it is: ', token);
       res.locals.token = token;
@@ -131,7 +149,7 @@ loginController.regularSignUp = (req, res, next) => {
         console.log('data.rows is empty and about to create one');
         db.query(queryString2, queryValues2)
           .then((data) => {
-            res.locals.username = data.rows[0].username;
+            res.locals.userName = data.rows[0].username;
             console.log('NEW USER: ', res.locals.username);
             // res.locals.token = tokens.id_token; need to set a token for future use
             const token = jwt.sign(data.rows[0], 'spider');

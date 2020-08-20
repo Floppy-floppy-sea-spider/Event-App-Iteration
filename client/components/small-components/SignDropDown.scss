@@ -1,14 +1,14 @@
 .dropdown {
   position: absolute;
   width: 300px;
-  height: 650px;
+  height: 750px;
   display: flex;
   flex-direction: column;
   padding: 20px;
   border: 2px solid #44bcd8;
   background-color: white;
   top: 90px;
-  right: 40vw;
+  right: 5vw;
   z-index: 5;
 
   .inputs-field {
@@ -21,4 +21,8 @@
       height: 600px;
     }
   }
+}
+
+.google-icon {
+  margin-right: 15px;
 }

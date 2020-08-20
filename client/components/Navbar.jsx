@@ -5,19 +5,11 @@ import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { faFeatherAlt } from '@fortawesome/free-solid-svg-icons';
 import SignDropdown from './small-components/SignDropdown.jsx';
 
-
-  
-    
-   
-      
-
-
-
-
 export default function Notnav({ handleStatusChange, userName, handleLogOut }) {
   const [hidden, setHidden] = useState(true);
 
   function handleClick() {
+    event.preventDefault();
     setHidden(!hidden);
     console.log(hidden);
   }
@@ -28,31 +20,31 @@ export default function Notnav({ handleStatusChange, userName, handleLogOut }) {
         <FontAwesomeIcon icon={faFeatherAlt} /> Social Scrapbook
       </Navbar.Brand>
       <Nav>
-        <a href="#">
-          <Button
-            className="navButton"
-            variant="outline-primary"
-            onClick={userName ? handleLogOut : handleClick}
-          >
-            {userName ? 'Log Out' : 'Sign Up / Log In'}
-          </Button>
-        </a>
+        <Button
+          className="navButton"
+          variant="outline-primary"
+          onClick={userName ? handleLogOut : handleClick}
+        >
+          {userName ? 'Log Out' : 'Sign Up / Log In'}
+        </Button>
       </Nav>
       {hidden ? null : (
         <SignDropdown
+          userName={userName}
           handleStatusChange={handleStatusChange}
           hideAfterSignInOrUp={() => {
             setHidden(true);
           }}
         />
       )}
-      <Nav>
-        <a href={userName ? "/api/logout" : "/api/login"}>
+      {/* <Nav>
+        <a href={userName ? '/api/logout' : '/api/login'}>
           <Button className="navButton" variant="outline-primary">
-            <FontAwesomeIcon icon={faGoogle} /> { (userName) ? 'Logout' : 'Sign Up/Log In' } 
-          </Button> 
+            <FontAwesomeIcon icon={faGoogle} />{' '}
+            {userName ? 'Logout' : 'Sign Up/Log In'}
+          </Button>
         </a>
-      </Nav>
+      </Nav> */}
     </Navbar>
   );
 }

@@ -21,11 +21,15 @@
   }
 
   &.google-sign-in {
-    background-color: #4285f4;
-    color: white;
+    margin-top: 30px;
+    background-color: white;
+    border: 1px solid #4285f4;
+    padding: 0px;
 
     &:hover {
-      background-color: #357ae8;
+      color: white;
+      background-color: lightgreen;
+      // background-color: #357ae8;
       border: none;
     }
   }
