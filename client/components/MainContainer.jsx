@@ -48,6 +48,7 @@ export default function MainContainer() {
       setUser(userInfo);
       setEvents(eventsInfo);
       setUserName(res.data.users.username);
+      handleLogIn(userInfo.username);
     });
   }, [loggedIn]);
   //updates username when a different user is selected
@@ -111,11 +112,11 @@ export default function MainContainer() {
       <div className="container">
         <Container className="header">
           <Profile {...user} />
-          <AddSearchEvent
+          {loggedIn && <AddSearchEvent
             addEvent={handleCreateEvent}
             searchEvent={handleSearchEvent}
             events={events}
-          />
+          />}
         </Container>
         <EventsFeed events={events} user={user} userUpdate={handleUserPageChange} />
       </div>

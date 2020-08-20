@@ -5,15 +5,6 @@ import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { faFeatherAlt } from '@fortawesome/free-solid-svg-icons';
 import SignDropdown from './small-components/SignDropdown.jsx';
 
-
-  
-    
-   
-      
-
-
-
-
 export default function Notnav({ handleStatusChange, userName, handleLogOut }) {
   const [hidden, setHidden] = useState(true);
 

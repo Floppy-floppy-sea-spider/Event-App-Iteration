@@ -380,4 +380,27 @@ eventController.addToCalendar = (req, res, next) => {
   });
 };
 
+eventController.addComment = (req, res, next) => {
+  // console.log(req.query);
+  try {
+  const { eventtitle } = req.query;
+  console.log(eventtitle);
+  const { updatedMessages } = req.body;
+  console.log(updatedMessages);
+  const queryStr = `UPDATE events SET eventmessages = '${updatedMessages}'
+  WHERE eventtitle = '${eventtitle}'`;
+
+  // const queryStr2 = `SELECT eventmessages from events WHERE eventid = 1`;
+
+  //Will need to create another table for messages
+  db.query(queryStr).then(response => {
+    console.log('response.rows[0] is: ', response.rows[0]);
+    res.locals.status = 200;
+    return next();
+  })
+} catch (error) {
+  console.log('error happened in addComment: ', error);
+  return next(error);
+}
+}
 module.exports = eventController;
