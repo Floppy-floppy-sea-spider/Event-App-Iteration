@@ -57,6 +57,7 @@ export default function MainContainer() {
         setUser(userInfo);
         setEvents(eventsInfo);
         setUserName(res.data.users.username);
+        handleLogIn(userInfo.username);
       });
     }
   }, [loggedIn]);
