@@ -1,71 +1,58 @@
-import React, { useState, useEffect } from 'react';
-import { Media, Form, Button } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Form, Button } from 'react-bootstrap';
+import axios from 'axios';
 
-export default function Content({ content }) {
-  const [cont, setCont] = useState(content);
-  // setComment is on line 29
+export default function Content(props) {
+  const [messages, setMessages] = useState(props.eventmessages);
   const [comment, setComment] = useState('');
+  const [user] = useState(props.user);
+  console.log(messages);
+  const messageFeed = messages.map((message, i) => (
+    <div key={`message${i}`}>
+      <div className="message">
+        <img src={message.photo} height='30px' width='30px'/>
+        <p><b>{message.name}</b></p>
+        <p className="timeStamp">{message.time}</p>
+      </div>
+      {message.text}
+      <hr />
+    </div>
+  ));
 
-  let messages = [];
-  // if (!cont) {
-  //   commentStore.push(comment);
-  //   messages = commentStore.map((message, index) => {
-  //     return (
-  //       <div className="messageBox" key={`Content${index}`}>
-  //         <div className="userMessage">
-  //           <img src={message.profilephoto}></img>
-  //         </div>
-  //         <div className="message" key={`Content${index}`} >
-  //           <p className="messageName">{message.firstname} {message.lastname}</p>
-  //           <p className="messageText">{message.text}</p>
-  //           <p className="messageTime">{message.time}</p>
-  //         </div>
-  //       </div>
-  //     )
-  //   })
-  // }
-  if (cont) {
-    messages = cont.map((message, index) => {
-      return (
-        <div className="messageBox" key={`Content${index}`}>
-          <div className="userMessage">
-            <img src={message.profilephoto}></img>
-          </div>
-          <div className="message" key={`Content${index}`}>
-            <p className="messageName">
-              {message.firstname} {message.lastname}
-            </p>
-            <p className="messageText">{message.text}</p>
-            <p className="messageTime">{message.time}</p>
-          </div>
-        </div>
-      );
-    });
-  }
-
-  //handles change to comment - updates the state
   const handleChange = (e) => {
     setComment(e.target.value);
   };
-  //handles submit event - creates time stamp - does not submit to database....yet
+  // handles submit event - creates time stamp - does not submit to database....yet
   function handleCommentSubmit(e) {
     e.preventDefault();
-    const date = new Date();
-    // const newContent = commentStore.concat([{ text: comment, time: date.toTimeString() }])
-    const newContent = cont.push([
-      { text: comment, time: date.toTimeString() },
-    ]);
-    console.log(newContent);
-    setCont(newContent);
+    let date = new Date();
+    const options = { hour: 'numeric', minute: 'numeric', weekday: 'short', month: 'long', day: 'numeric' };
+    date = date.toLocaleDateString('en-US', options);
+    if (comment.length) {
+      const updatedMessages = [...messages];
+      updatedMessages.push({
+        text: comment,
+        time: date,
+        photo: user.profilephoto,
+        name: `${user.firstname} ${user.lastname}`,
+      });
 
-    //clear form data
-    document.getElementsByName('comment-form')[0].reset();
+      const data = { updatedMessages};
+      axios.patch(`/api/addComment/?eventtitle=${props.eventtitle}`, data)
+        .then((res) => {
+          setMessages(updatedMessages); // setMessages on 200 status from server
+          console.log(res);
+        })
+        .catch((err) => { console.log(err); });
+      setComment('');
+      document.getElementsByName('comment-form')[0].reset();
+    }
   }
 
   return (
     <div className="eventContent">
       <h4>Comments</h4>
-      <div className="messages">{messages}</div>
+      <div className="messageFeed">{messageFeed}</div>
       <Form name="comment-form">
         <Form.Group controlId="exampleForm.ControlTextarea1">
           <Form.Label>Add a Comment:</Form.Label>

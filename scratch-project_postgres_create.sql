@@ -6,7 +6,7 @@ CREATE TABLE users
   "username" varchar NOT NULL CHECK ( username  <> ''),
   "firstname" varchar NOT NULL CHECK ( firstname  <> ''),
   "lastname" varchar NOT NULL CHECK ( lastname  <> ''),
-  "password" varchar NOT NULL CHECK ( password  <> ''),
+  "password" varchar CHECK ( password  <> ''),
   "profilephoto" varchar NOT NULL,
   UNIQUE ( username )
 );
@@ -47,8 +47,6 @@ CREATE TABLE usersandevents
     "eventid" bigint NOT NULL,
     "eventtitle" varchar NOT NULL,
     -- "eventdate" varchar NOT NULL,
-      "raweventstarttime" timestamp NOT NULL,
-    "raweventendtime" timestamp NOT NULL,
     "eventstarttime" varchar NOT NULL,
     "eventendtime" varchar NOT NULL,
     "eventdetails" varchar NOT NULL,

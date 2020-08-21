@@ -1,6 +1,8 @@
 .DS_Store
 dist
 package-lock.json
+credentials.json
+token.json
 node_modules
 .env
 credentials.json

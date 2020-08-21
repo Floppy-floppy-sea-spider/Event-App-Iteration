@@ -19,8 +19,8 @@ export default function MainContainer() {
     setUserName(username);
     setLoggedIn(true);
 
-    console.log('userName in handleLogIn is: ', userName);
-    console.log('loggedIn in handleLogIn is: ', loggedIn);
+    // console.log('userName in handleLogIn is: ', userName);
+    // console.log('loggedIn in handleLogIn is: ', loggedIn);
   }
 
   function handleLogOut() {
@@ -38,6 +38,7 @@ export default function MainContainer() {
     // console.log('I am in useEffect!');
     // console.log('userName in useEffect is: ', userName);
     // console.log('loggedIn in useEffect is: ', loggedIn);
+
     const cookiesUserName = Cookies.get('userName');
     if (cookiesUserName) {
       getInfo(cookiesUserName);
@@ -100,6 +101,7 @@ export default function MainContainer() {
   function handleSearchEvent(event) {
     // ADD
     axios.post(`/api/add?eventtitle=${event.eventtitle}`).then((res) => {
+      console.log(res);
       event.attendees.push({
         username: user.username,
         firstname: user.firstname,
@@ -121,13 +123,13 @@ export default function MainContainer() {
       <div className="container">
         <Container className="header">
           <Profile {...user} />
-          <AddSearchEvent
+          {loggedIn && <AddSearchEvent
             addEvent={handleCreateEvent}
             searchEvent={handleSearchEvent}
             events={events}
-          />
+          />}
         </Container>
-        <EventsFeed events={events} userUpdate={handleUserPageChange} />
+        <EventsFeed events={events} user={user} userUpdate={handleUserPageChange} />
       </div>
     </div>
   );

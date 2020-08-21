@@ -11,7 +11,7 @@ export default function Notnav({ handleStatusChange, userName, handleLogOut }) {
   function handleClick() {
     event.preventDefault();
     setHidden(!hidden);
-    console.log(hidden);
+    // console.log(hidden);
   }
 
   return (

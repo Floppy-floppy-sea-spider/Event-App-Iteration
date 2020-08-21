@@ -19,7 +19,7 @@ import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 class SignDropdown extends React.Component {
   constructor(props) {
     super(props);
-    console.log('props are: ', props);
+    // console.log('props are: ', props);
     this.state = {
       emailIn: '',
       passwordIn: '',
@@ -38,7 +38,7 @@ class SignDropdown extends React.Component {
   handleSignInSubmit() {
     event.preventDefault();
     const data = { email: this.state.emailIn, password: this.state.passwordIn };
-    console.log('data is: ', data);
+    // console.log('data is: ', data);
     // fetch('http://localhost:3000/api/regularSignIn', {
     //   method: 'POST',
     //   headers: {
@@ -49,6 +49,9 @@ class SignDropdown extends React.Component {
     axios
       .post('http://localhost:3000/api/regularSignIn', data)
       .then((response) => {
+
+        // console.log('response.data is', response.data);
+        Cookies.set('user', response.data.cookie);
         console.log('response.data is', response.data);
         Cookies.set('user', response.data.cookie, { path: '/' });
         Cookies.set('userName', response.data.userName, { path: '/' });
@@ -86,6 +89,9 @@ class SignDropdown extends React.Component {
     axios
       .post('http://localhost:3000/api/regularSignUp', data)
       .then((response) => {
+
+        // console.log('response.data is', response.data);
+        Cookies.set('user', response.data.cookie);
         console.log('response.data is', response.data);
         Cookies.set('user', response.data.cookie, { path: '/' });
         Cookies.set('userName', response.data.userName, { path: '/' });

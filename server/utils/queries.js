@@ -42,16 +42,16 @@ RETURNING eventid
 
 // ADDS ALL CURRENT EVENTS TO USERSANDEVENTS
 queries.addNewEventToJoinTable = `
-INSERT INTO usersandevents (userid, username, eventid, eventtitle,raweventstarttime, raweventendtime, eventstarttime, eventendtime, eventdetails, eventlocation)
-SELECT eventownerid, eventownerusername, eventid, eventtitle, raweventstarttime, raweventendtime, eventstarttime, eventendtime, eventdetails, eventlocation FROM events
+INSERT INTO usersandevents (userid, username, eventid, eventtitle, eventstarttime, eventendtime, eventdetails, eventlocation)
+SELECT eventownerid, eventownerusername, eventid, eventtitle, eventstarttime, eventendtime, eventdetails, eventlocation FROM events
 WHERE eventid=$1
 RETURNING usersandevents;
 `;
 
 // USERS ADDS THEMSELVES TO OTHER PEOPLE'S EVENTS
 queries.addUserToEvent = `INSERT INTO usersandevents
-  (userid, username, eventid, eventtitle, raweventstarttime, raweventendtime ,eventstarttime, eventendtime, eventdetails, eventlocation)
-VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+  (userid, username, eventid, eventtitle, eventstarttime, eventendtime, eventdetails, eventlocation)
+VALUES($1, $2, $3, $4, $5, $6, $7, $8)
 RETURNING eventid
 ;
 `;

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import DateTimePicker from 'react-datetime-picker';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import plus from '../assets/plus.png';
 import { Modal, Button, Form } from 'react-bootstrap';
 
 export default function CreateEvent({ addEvent }) {
@@ -67,7 +66,7 @@ export default function CreateEvent({ addEvent }) {
   return (
     <div>
       <div className="cardContainer" onClick={handleShow}>
-        <FontAwesomeIcon className="mx-auto faPlus" icon={faPlus} size="4x" />
+        <img src={plus} height="65px" width="65px" />
         <p>Add Event</p>
       </div>
 
