@@ -10,7 +10,13 @@ import CustomButton from './custom-button.jsx';
 
 import FormInput from './form-input.jsx';
 
-class CartDropdown extends React.Component {
+import { Navbar, Nav, Button } from 'react-bootstrap';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { faGoogle } from '@fortawesome/free-brands-svg-icons';
+
+class SignDropdown extends React.Component {
   constructor(props) {
     super(props);
     // console.log('props are: ', props);
@@ -43,8 +49,12 @@ class CartDropdown extends React.Component {
     axios
       .post('http://localhost:3000/api/regularSignIn', data)
       .then((response) => {
+
         // console.log('response.data is', response.data);
         Cookies.set('user', response.data.cookie);
+        console.log('response.data is', response.data);
+        Cookies.set('user', response.data.cookie, { path: '/' });
+        Cookies.set('userName', response.data.userName, { path: '/' });
         const userName = this.state.emailIn;
         this.setState({
           ...this.state,
@@ -79,8 +89,12 @@ class CartDropdown extends React.Component {
     axios
       .post('http://localhost:3000/api/regularSignUp', data)
       .then((response) => {
+
         // console.log('response.data is', response.data);
         Cookies.set('user', response.data.cookie);
+        console.log('response.data is', response.data);
+        Cookies.set('user', response.data.cookie, { path: '/' });
+        Cookies.set('userName', response.data.userName, { path: '/' });
         const userName = this.state.emailUp;
         this.setState({
           ...this.state,
@@ -125,8 +139,24 @@ class CartDropdown extends React.Component {
               required
             />
             <CustomButton type="submit">Sign In!</CustomButton>
+            {/* <Navbar>
+              <Nav>
+                <a href={this.props.userName ? '/api/logout' : '/api/login'}>
+                  <Button className="navButton" variant="outline-primary">
+                    <FontAwesomeIcon icon={faGoogle} />{' '}
+                    {this.props.userName ? 'Logout' : 'Sign Up/Log In'}
+                  </Button>
+                </a>
+              </Nav>
+            </Navbar> */}
           </form>
         </div>
+        <CustomButton isGoogleSignIn>
+          <a href={this.props.userName ? '/api/logout' : '/api/login'}>
+            <FontAwesomeIcon icon={faGoogle} className="google-icon" />
+            Sign In With Google
+          </a>
+        </CustomButton>
         <div className="inputs-field bigger">
           <form onSubmit={this.handleSignUpSubmit}>
             <FormInput
@@ -177,4 +207,4 @@ class CartDropdown extends React.Component {
   }
 }
 
-export default CartDropdown;
+export default SignDropdown;

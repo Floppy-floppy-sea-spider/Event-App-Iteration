@@ -117,7 +117,9 @@ router.post(
   cookieController.setSSIDCookie,
   (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
-    res.status(200).json({ cookie: res.locals.token });
+    res
+      .status(200)
+      .json({ cookie: res.locals.token, userName: res.locals.userName });
   }
 );
 
@@ -127,7 +129,9 @@ router.post(
   cookieController.setSSIDCookie,
   (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
-    res.status(200).json({ cookie: res.locals.token });
+    res
+      .status(200)
+      .json({ cookie: res.locals.token, userName: res.locals.userName });
   }
 );
 
